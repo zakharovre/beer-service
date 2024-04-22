@@ -1,18 +1,20 @@
 package ru.zakharovre.beerservice.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.zakharovre.beerservice.web.model.BeerDto;
 
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(BeerControllerTest.class)
+@WebMvcTest(BeerController.class)
 class BeerControllerTest {
 
     @Autowired
@@ -29,10 +31,26 @@ class BeerControllerTest {
     }
 
     @Test
-    void createBeer() {
+    void createBeer() throws Exception {
+
+        BeerDto beerDto = BeerDto.builder().build();
+        String beerDtoAsJson = objectMapper.writeValueAsString(beerDto);
+
+        mockMvc.perform(post("/api/v1/beer")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(beerDtoAsJson))
+                .andExpect(status().isCreated());
     }
 
     @Test
-    void updateBeerById() {
+    void updateBeerById() throws Exception {
+
+        BeerDto beerDto = BeerDto.builder().build();
+        String beerDtoAsJson = objectMapper.writeValueAsString(beerDto);
+
+        mockMvc.perform(put("/api/v1/beer/" + UUID.randomUUID())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(beerDtoAsJson))
+                .andExpect(status().isNoContent());
     }
 }
