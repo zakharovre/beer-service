@@ -23,12 +23,16 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web',
-            'org.springframework.boot:spring-boot-actuator', 'javax.xml.bind:jaxb-api', 'com.sun.xml.bind:jaxb-impl',
-            'org.springframework.boot:spring-boot-starter-data-jpa'
+            'org.springframework.boot:spring-boot-actuator', 'jakarta.xml.bind:jakarta.xml.bind-api', 'com.sun.xml.bind:jaxb-impl',
+            'org.springframework.boot:spring-boot-starter-data-jpa', 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'junit', module: 'junit'
+    }
+    testImplementation 'org.junit.jupiter:junit-jupiter-api', 'org.junit.jupiter:junit-jupiter-engine',
+    'org.mockito:mockito-junit-jupiter'
 }
 
 tasks.named('bootBuildImage') {
