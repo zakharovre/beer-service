@@ -3,6 +3,7 @@ package ru.zakharovre.beerservice.web.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.zakharovre.beerservice.web.model.BeerDto;
 
@@ -21,16 +22,23 @@ public class BeerController {
     }
 
     @PostMapping
-    public ResponseEntity createBeer(@RequestBody BeerDto beerDto) {
+    public ResponseEntity createBeer(@RequestBody @Validated BeerDto beerDto) {
 
         //todo impl
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PutMapping("/{beerId}")
-    public ResponseEntity updateBeerById(@PathVariable UUID beerId, @RequestBody BeerDto beerDto) {
+    public ResponseEntity updateBeerById(@PathVariable("beerId") UUID beerId, @RequestBody @Validated BeerDto beerDto) {
 
         //todo impl
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/{beerId}")
+    public ResponseEntity deleteById(@PathVariable("beerId") UUID beerId) {
+
+        //todo impl
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
